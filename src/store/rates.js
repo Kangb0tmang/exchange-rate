@@ -57,3 +57,10 @@ export function changeCurrencyCode(currencyCode) {
     });
   };
 }
+
+// Thunks - always have a dispatch & getState
+export function getInitialRates(dispatch, getState) {
+  const state = getState();
+  const currencyCode = getCurrencyCode(state);
+  dispatch(changeCurrencyCode(currencyCode));
+}
