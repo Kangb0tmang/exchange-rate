@@ -15,3 +15,7 @@ export function ratesReducer(state = initialState, action) {
       return state;
   }
 }
+
+// Selectors - can do in 1 place instead of everywhere its used throughout app
+export const getAmount = (state) => state.rates.amount;
+export const getCurrencyCode = (state) => state.rates.currencyCode;
