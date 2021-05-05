@@ -1,11 +1,13 @@
 import { useDispatch } from 'react-redux';
+import { changeAmount } from '../store/rates';
 
 export function AmountField({ amount }) {
   // Send actions to reducer, which may update state
   const dispatch = useDispatch();
   function onChange(e) {
     // Dispatches the amount changed to reducer
-    dispatch({ type: 'rates/amountChanged', payload: e.target.value });
+    // dispatch({ type: AMOUNT_CHANGED, payload: e.target.value });
+    dispatch(changeAmount(e.target.value));
   }
 
   return (
