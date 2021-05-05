@@ -5,7 +5,7 @@ export function AmountField({ amount }) {
   const dispatch = useDispatch();
   function onChange(e) {
     // Dispatches the amount changed to reducer
-    dispatch({ type: 'amountChanged', payload: e.target.value });
+    dispatch({ type: 'rates/amountChanged', payload: e.target.value });
   }
 
   return (
