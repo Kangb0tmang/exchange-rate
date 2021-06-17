@@ -2,12 +2,7 @@ import { useSelector } from 'react-redux';
 import { RateTable } from './RateTable';
 import { CurrencyCodePicker } from './CurrencyCodePicker';
 import { AmountField } from './AmountField';
-import {
-  getAmount,
-  getCurrencyData,
-  supportedCurrencies,
-  getCurrencyCode,
-} from '../store/rates';
+import { getAmount, getCurrencyData, getCurrencyCode } from '../store/rates';
 
 export function ExchangeRate() {
   // Get currency amount with useSelector instead of useState
@@ -19,11 +14,7 @@ export function ExchangeRate() {
     <>
       <section>
         <h1 className='ExchangeRate-header'>
-          Exchange Rates{' '}
-          <CurrencyCodePicker
-            supportedCurrencies={supportedCurrencies}
-            currencyCode={currencyCode}
-          />
+          Exchange Rates <CurrencyCodePicker currencyCode={currencyCode} />
         </h1>
       </section>
       <section>

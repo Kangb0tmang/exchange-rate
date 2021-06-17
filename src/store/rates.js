@@ -1,11 +1,10 @@
 import { getExchangeRates } from '../api';
 
-export const supportedCurrencies = ['USD', 'EUR', 'JPY', 'CAD', 'GBP', 'MXN'];
-
 const initialState = {
   amount: '12.00',
   currencyCode: 'JPY',
   currencyData: { USD: 1.0 },
+  supportedCurrencies: ['USD', 'EUR', 'JPY', 'CAD', 'GBP', 'MXN'],
 };
 
 // Reducer function similar to reduce (array function)
@@ -16,7 +15,12 @@ export function ratesReducer(state = initialState, action) {
     case CURRENCY_CODE_CHANGED:
       return { ...state, currencyCode: action.payload };
     case 'rates/ratesReceived':
-      return { ...state, currencyData: action.payload };
+      const codes = Object.keys(action.payload).concat(state.currencyCode);
+      return {
+        ...state,
+        currencyData: action.payload,
+        supportedCurrencies: codes,
+      };
     default:
       // Always returns the new or old state, never modifies it
       return state;
@@ -27,6 +31,8 @@ export function ratesReducer(state = initialState, action) {
 export const getAmount = (state) => state.rates.amount;
 export const getCurrencyCode = (state) => state.rates.currencyCode;
 export const getCurrencyData = (state) => state.rates.currencyData;
+export const getSupportedCurrencies = (state) =>
+  state.rates.supportedCurrencies;
 
 // Action types
 export const AMOUNT_CHANGED = 'rates/amountChanged';
@@ -44,7 +50,9 @@ export const changeAmount = (amount) => ({
 //   });
 // };
 export function changeCurrencyCode(currencyCode) {
-  return function changeCurrencyCodeThunk(dispatch) {
+  return function changeCurrencyCodeThunk(dispatch, getState) {
+    const state = getState();
+    const supportedCurrencies = getSupportedCurrencies(state);
     dispatch({
       type: CURRENCY_CODE_CHANGED,
       payload: currencyCode,
