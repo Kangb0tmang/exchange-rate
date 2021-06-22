@@ -1,37 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   getCurrencyCode,
   getSupportedCurrencies,
-} from "../store/reducers/RateReducer";
-import { updateCurrencyCode } from "../store/actions/RateActions";
+} from '../store/reducers/RateReducer';
+import { updateCurrencyCode } from '../store/actions/RateActions';
 
-export class CurrencyCodePicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
-  onChange(e) {
+export function CurrencyCodePicker({
+  currencyCode,
+  currencyCodeUpdate,
+  supportedCurrencies,
+}) {
+  function onChange(e) {
     const currencyCode = e.target.value;
-    this.props.currencyCodeUpdate(currencyCode);
+    currencyCodeUpdate(currencyCode);
   }
-  render() {
-    const { currencyCode, supportedCurrencies } = this.props;
-    return (
-      <select
-        className="currencyCode"
-        value={currencyCode}
-        onChange={this.onChange}
-      >
-        {supportedCurrencies.map((code) => (
-          <option key={code} value={code}>
-            {code}
-          </option>
-        ))}
-      </select>
-    );
-  }
+  return (
+    <select className='currencyCode' value={currencyCode} onChange={onChange}>
+      {supportedCurrencies.map((code) => (
+        <option key={code} value={code}>
+          {code}
+        </option>
+      ))}
+    </select>
+  );
 }
 
 // prop types
