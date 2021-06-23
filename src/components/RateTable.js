@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Bounce from 'bounce.js';
 import { getAmount, getRates } from '../store/reducers/RateReducer';
 import { getName } from '../store/reducers/UserReducer';
 
-export function RateTable({ rates, amount, name }) {
+export function RateTable() {
+  const name = useSelector(getName);
+  const amount = useSelector(getAmount);
+  const rates = useSelector(getRates);
   // useRef() is a hook in function components
   // createRef() used for class components
   // Essentially replacing instance variables used in the past
@@ -60,19 +62,5 @@ export function RateTable({ rates, amount, name }) {
   }
 }
 
-// prop types
-RateTable.propTypes = {
-  name: PropTypes.string,
-  amount: PropTypes.string,
-  rates: PropTypes.objectOf(PropTypes.number),
-};
-
 // redux stuff
-function mapStateToProps(state) {
-  return {
-    name: getName(state),
-    amount: getAmount(state),
-    rates: getRates(state),
-  };
-}
-export const RateTableContainer = connect(mapStateToProps)(RateTable);
+export const RateTableContainer = connect(null)(RateTable);
