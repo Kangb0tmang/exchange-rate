@@ -1,21 +1,43 @@
 import React, { useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ratesUpdated } from '../store/actions/RateActions';
 import {
   getCurrencyCode,
   getSupportedCurrencies,
 } from '../store/reducers/RateReducer';
-import { RateTableContainer } from './RateTable';
-import { CurrencyCodePickerContainer } from './CurrencyCodePicker';
+import { RateTable } from './RateTable';
+import { CurrencyCodePicker } from './CurrencyCodePicker';
 import { getExchangeRates } from '../api';
-import { AmountFieldContainer } from './AmountField';
+import { AmountField } from './AmountField';
 
 export function ExchangeRate() {
+  // Use custom hook here
+  useCurrencyCodes();
+
+  return (
+    <>
+      <section>
+        <h1 className='ExchangeRate-header'>
+          Exchange Rates <CurrencyCodePicker />
+        </h1>
+      </section>
+      <section>
+        <AmountField />
+      </section>
+      <section>
+        <RateTable />
+      </section>
+    </>
+  );
+}
+
+// Custom hook
+// Can focus only on logic here
+function useCurrencyCodes() {
   const dispatch = useDispatch();
   const supportedCurrencies = useSelector(getSupportedCurrencies);
   const currencyCode = useSelector(getCurrencyCode);
   const updateRates = (rates) => dispatch(ratesUpdated(rates));
-
   // Runs only on first time component is rendered
   useEffect(() => {
     getLatestExchangeRates();
@@ -26,22 +48,4 @@ export function ExchangeRate() {
       updateRates(rates);
     });
   }
-  return (
-    <>
-      <section>
-        <h1 className='ExchangeRate-header'>
-          Exchange Rates <CurrencyCodePickerContainer />
-        </h1>
-      </section>
-      <section>
-        <AmountFieldContainer />
-      </section>
-      <section>
-        <RateTableContainer />
-      </section>
-    </>
-  );
 }
-
-// redux stuff
-export const ExchangeRateContainer = connect(null, null)(ExchangeRate);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getCurrencyCode,
   getSupportedCurrencies,
@@ -26,6 +26,3 @@ export function CurrencyCodePicker() {
     </select>
   );
 }
-
-// redux stuff
-export const CurrencyCodePickerContainer = connect()(CurrencyCodePicker);

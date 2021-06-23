@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getAmount } from '../store/reducers/RateReducer';
 import { amountChanged } from '../store/actions/RateActions';
 import { debounce } from 'lodash';
@@ -32,5 +32,3 @@ export function AmountField() {
     </form>
   );
 }
-// redux stuff
-export const AmountFieldContainer = connect()(AmountField);
