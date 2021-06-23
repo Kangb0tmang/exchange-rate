@@ -1,11 +1,16 @@
-import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState, useMemo, useCallback } from 'react';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { getAmount } from '../store/reducers/RateReducer';
 import { amountChanged } from '../store/actions/RateActions';
 import { debounce } from 'lodash';
 
-export function AmountField({ amount, changeAmount }) {
+export function AmountField() {
+  const dispatch = useDispatch();
+  const amount = useSelector(getAmount);
+  const changeAmount = useCallback(
+    (newAmount) => dispatch(amountChanged(newAmount)),
+    []
+  );
   const [displayAmount, setDisplayAmount] = useState(amount);
   // useMemo instead of using an instance variable
   // useMemo ensures is created only once
@@ -20,33 +25,12 @@ export function AmountField({ amount, changeAmount }) {
     setDisplayAmount(newAmount);
     onAmountChanged(newAmount);
   }
+
   return (
     <form className='ExchangeRate-form'>
       <input type='text' value={displayAmount} onChange={onChange} />
     </form>
   );
 }
-
-// prop types
-AmountField.propTypes = {
-  amount: PropTypes.string,
-  changeAmount: PropTypes.func,
-};
-
 // redux stuff
-function mapStateToProps(state) {
-  return {
-    amount: getAmount(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeAmount: (newAmount) => dispatch(amountChanged(newAmount)),
-  };
-}
-
-export const AmountFieldContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AmountField);
+export const AmountFieldContainer = connect()(AmountField);
